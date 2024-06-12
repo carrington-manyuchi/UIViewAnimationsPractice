@@ -13,21 +13,18 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
-            self.upMove()
-        }
+        upMove()
     }
 
     func upMove() {
-        UIView.animate(withDuration: 1) {
+        UIView.animate(withDuration: 1.2, delay: 2, usingSpringWithDamping: 0.5, initialSpringVelocity: 4, options: .curveEaseIn) {
             self.block.frame.origin = CGPoint(x: self.view.center.x - (self.block.frame.width / 2), y: 0)
-        } completion: { (success) in
+        } completion: { success in
             self.rightMove()
         }
     }
-    
     func rightMove() {
-        UIView.animate(withDuration: 1) {
+        UIView.animate(withDuration: 1.2, delay: 0, usingSpringWithDamping: 0.2, initialSpringVelocity: 6, options: .transitionCurlUp) {
             self.block.frame.origin = CGPoint(x: self.view.frame.size.width - self.block.frame.width, y: self.view.center.y - (self.block.frame.height / 2))
         } completion: { (success) in
             self.downMove()
@@ -35,18 +32,18 @@ class ViewController: UIViewController {
     }
     
     func downMove() {
-        UIView.animate(withDuration: 1) {
+        UIView.animate(withDuration: 2, delay: 0, options: .curveLinear) {
             self.block.frame.origin = CGPoint(x: self.view.center.x - (self.block.frame.width / 2), y: self.view.frame.size.height - self.block.frame.height)
-        } completion: { (success) in
-            self.leftMove()
+        } completion: { [self] (success) in
+            leftMove()
         }
     }
     
     func leftMove() {
-        UIView.animate(withDuration: 1) {
+        UIView.animate(withDuration: 2, delay: 0, options: .curveEaseInOut) {
             self.block.frame.origin = CGPoint(x: 0, y: self.view.center.y - (self.block.frame.height / 2))
         } completion: { (success) in
-            self.resetMove()
+            self.upMove()
         }
     }
     
